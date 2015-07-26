@@ -1,0 +1,11 @@
+[package]
+name = "music-streamer-cli"
+version = "0.1.0"
+authors = ["Jiří Konečný <DragonLichcz@gmail.com>"]
+
+[dependencies.music_streamer]
+git = "https://github.com/MusicStreamer/LibMusicStreamer.git"
+
+[dependencies.gtk]
+git = "https://github.com/rust-gnome/gtk.git"
+features = ["gtk_3_12"]
