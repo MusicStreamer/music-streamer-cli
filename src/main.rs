@@ -3,9 +3,11 @@ extern crate gtk;
 
 mod auth;
 
-use music_streamer::deezer;
 use gtk::traits::*;
 
 fn main() {
-    auth::show_browser("www.example.com");
+    println!("Please copy this url to your browser:\n{}",
+             auth::get_app_auth_link());
+    println!("Paste here url after you authorize this application");
+    println!("Thank you");
 }
