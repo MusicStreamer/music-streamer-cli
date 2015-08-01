@@ -1,9 +1,6 @@
 extern crate music_streamer;
-extern crate gtk;
 
 mod auth;
-
-use gtk::traits::*;
 
 fn main() {
     println!("Please copy this url to your browser:\n{}",

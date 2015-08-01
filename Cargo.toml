@@ -5,7 +5,3 @@ authors = ["Jiří Konečný <DragonLichcz@gmail.com>"]
 
 [dependencies.music_streamer]
 git = "https://github.com/MusicStreamer/LibMusicStreamer.git"
-
-[dependencies.gtk]
-git = "https://github.com/rust-gnome/gtk.git"
-features = ["gtk_3_12"]
