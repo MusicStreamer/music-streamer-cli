@@ -17,9 +17,24 @@ extern crate music_streamer;
 
 mod auth;
 
+use std::io;
+use auth::Authentication;
+
 fn main() {
-    println!("Please copy this url to your browser:\n{}",
-             auth::get_app_auth_link());
+    let mut auth_deezer = Authentication::new(auth::Service::DEEZER);
+    let url = auth_deezer.get_app_auth_link();
+    println!("Please copy this url to your browser:\n{}", url);
+
     println!("Paste here url after you authorize this application");
+    let mut input = String::new();
+
+    io::stdin().read_line(&mut input)
+        .ok()
+        .expect("Can't read from command line");
+
+    auth_deezer.authenticate_app(&input)
+        .ok()
+        .expect("Can't authenticate application");
+
     println!("Thank you");
 }

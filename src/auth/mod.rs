@@ -15,13 +15,43 @@
 
 extern crate music_streamer;
 
-use music_streamer::auth::deezer::AuthDeezer;
 use music_streamer::auth::AuthMethods;
+use music_streamer::auth::deezer::AuthDeezer;
 
 mod constants;
 
-pub fn get_app_auth_link() -> String {
-    let auth_deezer = AuthDeezer::new();
-    
-    auth_deezer.get_authorize_link(constants::APP_ID, constants::REDIRECT_URL)
+pub enum Service {
+    DEEZER,
+}
+
+pub struct Authentication {
+    auth: Box<AuthMethods + 'static>,
+}
+
+impl Authentication {
+    pub fn new(service: Service) -> Authentication {
+        match service {
+            Service::DEEZER => {
+                Authentication {
+                    auth: Box::new(AuthDeezer::new()),
+                }
+            }
+        }
+    }
+
+    pub fn get_app_auth_link(&mut self) -> String {
+        self.auth.get_authorize_link(constants::APP_ID, constants::REDIRECT_URL)
+    }
+
+    pub fn authenticate_app(&mut self, response: &str) -> Result<(), &str> {
+        let code = self.auth.parse_response_code(response);
+
+        match code {
+            Some(i) => {
+                return self.auth.authenticate_application(constants::APP_ID, constants::APP_SECRET, &i)
+            }
+            None => return Err("Can't parse response code")
+        }
+    }
+
 }
