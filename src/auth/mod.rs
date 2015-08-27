@@ -15,27 +15,20 @@
 
 extern crate music_streamer;
 
-use music_streamer::auth::AuthMethods;
-use music_streamer::auth::deezer::AuthDeezer;
+use music_streamer::auth::Authenticator;
+use music_streamer::auth::ServiceType;
+use music_streamer::auth::new;
 
 mod constants;
 
-pub enum Service {
-    DEEZER,
-}
-
 pub struct Authentication {
-    auth: Box<AuthMethods + 'static>,
+    auth: Box<Authenticator + 'static>,
 }
 
 impl Authentication {
-    pub fn new(service: Service) -> Authentication {
-        match service {
-            Service::DEEZER => {
-                Authentication {
-                    auth: Box::new(AuthDeezer::new()),
-                }
-            }
+    pub fn new_deezer() -> Authentication {
+        Authentication {
+            auth: new(ServiceType::DEEZER),
         }
     }
 

@@ -21,7 +21,7 @@ use std::io;
 use auth::Authentication;
 
 fn main() {
-    let mut auth_deezer = Authentication::new(auth::Service::DEEZER);
+    let mut auth_deezer = Authentication::new_deezer();
     let url = auth_deezer.get_app_auth_link();
     println!("Please copy this url to your browser:\n{}", url);
 
