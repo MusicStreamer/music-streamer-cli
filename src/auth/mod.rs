@@ -17,6 +17,7 @@ extern crate music_streamer;
 
 use music_streamer::auth::Authenticator;
 use music_streamer::auth::ServiceType;
+use music_streamer::auth::Permission;
 use music_streamer::auth::new;
 
 mod constants;
@@ -33,7 +34,8 @@ impl Authentication {
     }
 
     pub fn get_app_auth_link(&mut self) -> String {
-        self.auth.get_authorize_link(constants::APP_ID, constants::REDIRECT_URL)
+        self.auth.get_authorize_link(constants::APP_ID, constants::REDIRECT_URL,
+                                    &[Permission::BasicAccess])
     }
 
     pub fn authenticate_app(&mut self, response: &str) -> Result<(), &str> {
@@ -41,7 +43,8 @@ impl Authentication {
 
         match code {
             Some(i) => {
-                return self.auth.authenticate_application(constants::APP_ID, constants::APP_SECRET, &i)
+                return self.auth.authenticate_application(constants::APP_ID,
+                                                         constants::APP_SECRET, &i)
             }
             None => return Err("Can't parse response code")
         }
